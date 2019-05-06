@@ -3,6 +3,8 @@ package com.authright.happyprime.controllers;
 import com.authright.happyprime.services.RandomNumberService;
 import com.authright.happyprime.utils.NumberUtils;
 import com.authright.happyprime.utils.AsyncChecker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @RestController()
 @RequestMapping(value = {"/v1/"})
-public class HappyController {
+public class HappyPrimeController {
+
+
+    Logger logger = LoggerFactory.getLogger(HappyPrimeController.class);
 
     @Autowired
     RandomNumberService randomNumberService;
@@ -23,6 +27,7 @@ public class HappyController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> isHappyPrime() {
         long number = randomNumberService.getNumber();
+        logger.debug("Got random number: " + number);
         if (number > 0){
             return happyPrimeResponse(number);
         }
@@ -39,6 +44,7 @@ public class HappyController {
     @GetMapping(value = {"/isHappyprime/{number}"})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> isHappyPrime(@PathVariable(value = "number") long number) {
+        logger.debug("Got number from path:" + number);
         return happyPrimeResponse(number);
     }
 
@@ -62,12 +68,15 @@ public class HappyController {
     @GetMapping(value = {"/isHappyprimeAsync/{number}"})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> isHappyPrimeAsync(@PathVariable(value = "number") long number) {
+        logger.debug("Got number from path:" + number);
         return happyPrimeAsync(number);
     }
 
     private  ResponseEntity<Map<String, Object>> happyPrimeResponse(long number) {
         boolean isHappy = NumberUtils.isHappy(number);
         boolean isPrime = NumberUtils.isPrime(number);
+        logger.debug("number:" + number + ", isHappy:" + isHappy);
+        logger.debug("number:" + number + ", isPrime:" + isPrime);
         return new ResponseEntity<>(
                 new HashMap<String, Object>() {{
                     put("number", number);
@@ -80,6 +89,7 @@ public class HappyController {
     public ResponseEntity<Map<String, Object>> happyPrimeAsync(long number) {
         try {
             boolean isHappyPrime = AsyncChecker.isHappyPrime(number);
+            logger.debug("number:" + number + ", isHappyPrime:" + isHappyPrime);
             return new ResponseEntity<>(
                     new HashMap<String, Object>() {{
                         put("number", number);

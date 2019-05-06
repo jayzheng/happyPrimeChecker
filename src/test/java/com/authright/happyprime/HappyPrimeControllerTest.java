@@ -1,6 +1,6 @@
 package com.authright.happyprime;
 
-import com.authright.happyprime.controllers.HappyController;
+import com.authright.happyprime.controllers.HappyPrimeController;
 import com.authright.happyprime.services.RandomNumberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +16,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = HappyController.class)
-public class HappyControllerTest {
+@WebMvcTest(controllers = HappyPrimeController.class)
+public class HappyPrimeControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
