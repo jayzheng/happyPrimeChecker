@@ -12,16 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Created by leizhang on 5/2/19.
- */
 @RestController()
 @RequestMapping(value = {"/v1/"})
 public class HappyController {
 
     @Autowired
     RandomNumberService randomNumberService;
-
 
     @GetMapping(value = {"/isHappyprime"})
     @ResponseBody
@@ -46,7 +42,6 @@ public class HappyController {
         return happyPrimeResponse(number);
     }
 
-
     @GetMapping(value = {"/isHappyprimeAsync"})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> isHappyPrimeAsync( ) {
@@ -63,7 +58,6 @@ public class HappyController {
             );
         }
     }
-
 
     @GetMapping(value = {"/isHappyprimeAsync/{number}"})
     @ResponseBody
